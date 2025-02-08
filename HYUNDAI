@@ -1,0 +1,45 @@
+def decode_hyundai_vin(vin):
+    if len(vin) != 19:
+        return {"error": "Invalid Hyundai VIN"}
+
+    # Month codes
+    month_codes = {
+        "A": "January", "B": "February", "C": "March", "D": "April",
+        "E": "May", "F": "June", "G": "July", "H": "August",
+        "J": "September", "K": "October", "L": "November", "M": "December"
+    }
+
+    # Year codes
+    year_codes = {
+        "A": 2010, "B": 2011, "C": 2012, "D": 2013, "E": 2014,
+        "F": 2015, "G": 2016, "H": 2017, "J": 2018, "K": 2019,
+        "L": 2020, "M": 2021, "N": 2022, "P": 2023, "R": 2024,
+        "S": 2025, "T": 2026, "V": 2027, "W": 2028, "X": 2029, "Y": 2030
+    }
+
+    # Manufacturing plants
+    plant_codes = {
+        "A": "Chennai, India",
+        "B": "Seoul, South Korea",
+        "C": "Ulsan, South Korea",
+        "D": "Beijing, China",
+        "E": "Sriperumbudur, India"  # Added plant in India
+    }
+
+    # Extract relevant characters
+    year_char = vin[9]   # 10th position
+    month_char = vin[18] # 19th position
+    plant_char = vin[10] # 11th position (assumed for plant)
+
+    # Decode values
+    year = year_codes.get(year_char, "Unknown Year")
+    month = month_codes.get(month_char, "Unknown Month")
+    plant = plant_codes.get(plant_char, "Unknown Plant")
+
+    return {
+        "VIN": vin,
+        "Make": "Hyundai",
+        "Manufacturing Month": month,
+        "Manufacturing Year": year,
+        "Manufacturing Plant": plant
+    }
