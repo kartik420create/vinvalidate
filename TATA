@@ -1,0 +1,60 @@
+def decode_tata_vin(vin):
+    if len(vin) != 17 or not vin.startswith("MAT"):
+        return {"error": "Invalid Tata VIN"}
+
+    # Year codes
+    year_codes = {
+        "A": 2010, "B": 2011, "C": 2012, "D": 2013, "E": 2014,
+        "F": 2015, "G": 2016, "H": 2017, "J": 2018, "K": 2019,
+        "L": 2020, "M": 2021, "N": 2022, "P": 2023, "R": 2024,
+        "S": 2025, "T": 2026, "V": 2027, "W": 2028, "X": 2029, "Y": 2030
+    }
+
+    # Month codes
+    month_codes = {
+        "A": "January", "B": "February", "C": "March", "D": "April",
+        "E": "May", "F": "June", "G": "July", "H": "August",
+        "J": "September", "K": "October", "N": "November", "P": "December"
+    }
+
+    # Manufacturing plant codes
+    plant_codes = {
+        "A": "Pune", "B": "Mumbai", "C": "Lucknow",
+        "D": "Sanand", "E": "Dharwad", "F": "Jamshedpur"
+    }
+
+    # Model codes (Example mapping)
+    model_codes = {
+        "61": "Nexon", "62": "Harrier", "63": "Safari", "64": "Altroz",
+        "65": "Tiago", "66": "Tigor", "67": "Punch"
+    }
+
+    # Engine & Variant codes (Example mapping)
+    engine_codes = {
+        "34": "1.5L Turbo Diesel", "35": "1.2L Turbo Petrol",
+        "36": "2.0L Kryotec Diesel", "37": "Electric Motor"
+    }
+
+    # Extract relevant characters
+    model_code = vin[3:5]   # 4th & 5th position
+    engine_code = vin[5:7]  # 6th & 7th position
+    plant_char = vin[7]     # 8th position
+    year_char = vin[9]      # 10th position
+    month_char = vin[11]    # 12th position
+
+    # Decode values
+    year = year_codes.get(year_char, "Unknown Year")
+    month = month_codes.get(month_char, "Unknown Month")
+    plant = plant_codes.get(plant_char, "Unknown Plant")
+    model = model_codes.get(model_code, "Unknown Model")
+    engine = engine_codes.get(engine_code, "Unknown Engine")
+
+    return {
+        "VIN": vin,
+        "Make": "Tata",
+        "Model": model,
+        "Engine": engine,
+        "Year": year,
+        "Month": month,
+        "Manufacturing Plant": plant
+    }
