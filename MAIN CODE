@@ -1,0 +1,34 @@
+from flask import Flask, request, jsonify
+from tata_decoder import decode_tata_vin
+from honda_decoder import decode_honda_vin
+from mahindra_decoder import decode_mahindra_vin
+from hyundai_decoder import decode_hyundai_vin
+from external_api import fetch_vin_details
+
+app = Flask(__name__)
+
+@app.route('/decode_vin', methods=['POST'])
+def decode_vin():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid request format"}), 400
+    
+    vin = data.get("vin", "").strip().upper()
+    make = data.get("make", "").strip().lower()
+    
+    if not vin:
+        return jsonify({"error": "Invalid VIN. VIN cannot be empty."}), 400
+    
+    decoder_functions = {
+        "tata": decode_tata_vin,
+        "honda": decode_honda_vin,
+        "mahindra": decode_mahindra_vin,
+        "hyundai": decode_hyundai_vin
+    }
+    
+    result = decoder_functions.get(make, fetch_vin_details)(vin)
+    
+    return jsonify(result)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
