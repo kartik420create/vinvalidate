@@ -1,1 +1,61 @@
+def decode_honda_vin(vin):
+    if len(vin) != 17:
+        return {"error": "Invalid Honda VIN"}
+
+    # Month codes
+    month_codes = {
+        "A": "January", "B": "February", "C": "March", "D": "April",
+        "E": "May", "F": "June", "G": "July", "H": "August",
+        "J": "September", "K": "October", "L": "November", "M": "December"
+    }
+
+    # Year codes
+    year_codes = {
+        "A": 2010, "B": 2011, "C": 2012, "D": 2013, "E": 2014,
+        "F": 2015, "G": 2016, "H": 2017, "J": 2018, "K": 2019,
+        "L": 2020, "M": 2021, "N": 2022, "P": 2023, "R": 2024,
+        "S": 2025, "T": 2026, "V": 2027, "W": 2028, "X": 2029, "Y": 2030
+    }
+
+    # Indian Manufacturing plants
+    plant_codes = {
+        "T": "Tapukara, Rajasthan - India",
+        "G": "Greater Noida, Uttar Pradesh - India"
+    }
+
+    # Model codes (Example mapping)
+    model_codes = {
+        "GM6": "Honda City", "DG1": "Honda Jazz", "KE1": "Honda Amaze",
+        "RU5": "Honda Elevate", "RR8": "Honda Accord"
+    }
+
+    # Engine codes (Example mapping)
+    engine_codes = {
+        "L15": "1.5L i-VTEC Petrol", "R20": "2.0L DOHC i-VTEC",
+        "J35": "3.5L V6", "P10": "Electric Motor"
+    }
+
+    # Extract relevant characters
+    model_code = vin[3:6]   # 4th to 6th position
+    engine_code = vin[7:10] # 8th to 10th position
+    plant_char = vin[10]    # 11th position
+    month_char = vin[8]     # 9th position
+    year_char = vin[9]      # 10th position
+
+    # Decode values
+    month = month_codes.get(month_char, "Unknown Month")
+    year = year_codes.get(year_char, "Unknown Year")
+    plant = plant_codes.get(plant_char, "Unknown Plant (Possibly International)")
+    model = model_codes.get(model_code, "Unknown Model")
+    engine = engine_codes.get(engine_code, "Unknown Engine")
+
+    return {
+        "VIN": vin,
+        "Make": "Honda",
+        "Model": model,
+        "Engine": engine,
+        "Manufacturing Month": month,
+        "Manufacturing Year": year,
+        "Manufacturing Plant": plant
+    }
 
